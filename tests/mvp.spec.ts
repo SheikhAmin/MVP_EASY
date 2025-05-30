@@ -15,14 +15,14 @@ describe("Test Cases",()=>{
     })
 
 
-    test.only("New Dealer Registration",async ({page})=>{
+    test("New Dealer Registration",async ({page})=>{
         const obj = new DealerRegistration(page);
         await obj.clickNewDealerReg("New Dealer Registration");
         //id, pass, addr, company, first, last, city, email, phone, zipcode
         id = await obj.formFillUp(userName,pass,"Tejgaon","Ael_napco","Sheikh","Amin","Dhaka","samin@ael-bd.com","0152125565","1215");
         await page.screenshot({ path: 'screenshots/fullpage.png', fullPage: true })
     })
-
+/*
     test('Login',async({page})=>{
         await page.locator("input#Account").fill("500502");
         await page.locator("input#Username").fill("CustomerDealer123");
@@ -31,5 +31,5 @@ describe("Test Cases",()=>{
         await page.waitForTimeout(10000);
     })
 
-
+*/
 })
