@@ -8,7 +8,7 @@ import { test, expect } from "@playwright/test";
 describe("Test Cases",()=>{
 
     test("Dry run",async ({page})=>{
-        page.goto("https://www.youtube.com/");
+        await page.goto("https://www.youtube.com/");
     })
 
 })
