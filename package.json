@@ -1,0 +1,21 @@
+{
+  "name": "test-automation",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "test:firefox": "playwright test tests/example.spec.ts --project=firefox --headed"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "description": "",
+  "devDependencies": {
+    "@playwright/test": "^1.52.0",
+    "@types/mssql": "^9.1.7",
+    "@types/node": "^22.15.18"
+  },
+  "dependencies": {
+    "mssql": "^11.0.1",
+    "playwright": "^1.52.0"
+  }
+}
