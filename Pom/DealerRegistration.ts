@@ -1,23 +1,23 @@
 import { Page, Locator, expect } from '@playwright/test';
 
 export class DealerRegistration {
-  readonly page: Page;
-  readonly newDealerRegBtn = '.text-muted > a';
-  readonly newDealerTxt = 'h2.text-center';
-  readonly userName = 'input#UserName';
-  readonly address1 = 'input#Address1';
-  readonly password = 'input#passwordField';
-  readonly city = 'input#City';
-  readonly retypePass = 'input#confirmPasswordField';
-  readonly firtName = 'input#FirstName';
-  readonly lastName = 'input#LastName';
-  readonly companyName = 'input#CompanyName';
-  readonly zipcode = 'input#Zip';
-  readonly email = 'input#Email';
-  readonly phone = 'input#HostedManagerDirectPhoneNumber';
-  readonly sumbitBtn = 'button#submitButton';
-  readonly promptModal = '#modalOkButton';
-  readonly accountNum = "input#Account";
+  private readonly page: Page;
+  private readonly newDealerRegBtn = '.text-muted > a';
+  private readonly newDealerTxt = 'h2.text-center';
+  private readonly userName = 'input#UserName';
+  private readonly address1 = 'input#Address1';
+  private readonly password = 'input#passwordField';
+  private readonly city = 'input#City';
+  private readonly retypePass = 'input#confirmPasswordField';
+  private readonly firtName = 'input#FirstName';
+  private readonly lastName = 'input#LastName';
+  private readonly companyName = 'input#CompanyName';
+  private readonly zipcode = 'input#Zip';
+  private readonly email = 'input#Email';
+  private readonly phone = 'input#HostedManagerDirectPhoneNumber';
+  private readonly sumbitBtn = 'button#submitButton';
+  private readonly promptModal = '#modalOkButton';
+  private readonly accountNum = "input#Account";
 
   constructor(page: Page) {
     this.page = page;
@@ -52,10 +52,8 @@ export class DealerRegistration {
     await this.page.locator(this.email).fill(email);
     await this.page.locator(this.phone).fill(phone);
     await this.page.locator(this.sumbitBtn).click();
-
-    await this.page.waitForTimeout(10000);
     await this.page.locator(this.promptModal).click();
-    
+    await this.page.waitForTimeout(2000);
     const inputVal = await this.page.locator(this.accountNum).inputValue();
     return inputVal as string;
   }
