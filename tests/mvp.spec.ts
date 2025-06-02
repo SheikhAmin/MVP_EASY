@@ -18,7 +18,7 @@ describe("Test Cases",()=>{
     })
 
 
-    test.only("New Dealer Registration",async ({page})=>{
+    test("New Dealer Registration",async ({page})=>{
         const obj = new DealerRegistration(page);
         await obj.clickNewDealerReg("New Dealer Registration");
         //id, pass, addr, company, first, last, city, email, phone, zipcode
@@ -27,6 +27,7 @@ describe("Test Cases",()=>{
         const credentials = {userName, pass, id};   
         const fixturePath = path.join('fixtures', 'credentials.json');
         fs.writeFileSync(fixturePath, JSON.stringify(credentials, null, 3));
+        await page.waitForTimeout(5000);
     })
 
     test('Login',async({page})=>{
