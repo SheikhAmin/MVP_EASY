@@ -1,12 +1,12 @@
 import { beforeEach, describe } from "node:test";
-import { DealerRegistration } from "../Pom/DealerRegistration";
+import { DealerRegistration } from "./DealerRegistration";
 
-import { Common } from "../common/Common";
+import { Common } from "../../common/Common";
 
 import { test, expect } from "@playwright/test";
 import path from "path";
 import fs from "fs";
-import { Login } from "../Pom/Login";
+import { Login } from "../login/Login";
 
 describe("Test Cases",()=>{
     const obj1 = new Common();
@@ -30,21 +30,7 @@ describe("Test Cases",()=>{
         await page.waitForTimeout(5000);
     })
 
-    test('Login',async({page})=>{
-        const obj = new Login(page);
-        const fixturePath = path.join('fitures', 'credentials.json');
-        if(!fs.existsSync(fixturePath)){
-            console.error("Credentials file not found. Please run the registration test first.");
-            return;
-        }
-        const credentials = JSON.parse(fs.readFileSync(fixturePath, 'utf-8'));
-        userName = credentials.userName;
-        pass = credentials.pass;
-        id = credentials.id;
-        await obj.login(userName, pass,id);
-        await page.waitForTimeout(10000);
-
-    })
+   
 
 
 })
