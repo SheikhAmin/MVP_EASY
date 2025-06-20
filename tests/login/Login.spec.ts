@@ -5,11 +5,15 @@ import path from "path";
 import { Login } from "./Login";
 
 describe("Login Test Suite", () => {
+    let userName : string;
+    let pass : string;
+    let id : string;
+
     test.beforeEach('Visit Login Page', async ({ page }) => {
         await page.goto('/');
     });
 
-    test('Login',async({page})=>{
+    test('Login with Valid Credentials',async({page})=>{
         const obj = new Login(page);
         const fixturePath = path.join('fitures', 'credentials.json');
         if(!fs.existsSync(fixturePath)){
@@ -17,11 +21,21 @@ describe("Login Test Suite", () => {
             return;
         }
         const credentials = JSON.parse(fs.readFileSync(fixturePath, 'utf-8'));
-        let userName : string = credentials.userName;
-        let pass : string = credentials.pass;
-        let id : string = credentials.id;
+        userName = credentials.userName;
+        pass = credentials.pass;
+        id  = credentials.id;
         await obj.login(userName, pass,id);
         await page.waitForTimeout(10000);
 
-    })
+    });
+
+    test('Login with Invalid Credentials', async ({ page }) => {
+        const obj = new Login(page);
+        await obj.login("invalidUser", "invalidPass", "invalidId");
+        // Verify that the error message is displayed
+        await obj.checkErrorMessage("Invalid username or password");
+        
+        
+      
+    });
 });

@@ -1,4 +1,5 @@
 import { Page } from "playwright";
+import { expect } from "playwright/test";
 
 export class Login {
     private readonly page: Page;
@@ -6,6 +7,7 @@ export class Login {
     private readonly userName = "input#Username"; 
     private readonly passwordInput = "input#passwordField";
     private readonly submitBtn = "button[type='submit'].btn.btn-primary.w-100";
+    private readonly errorMessage = "div.validation-summary-errors.text-danger>ul>li"; // Adjust selector as needed
 
     constructor(page: Page) {
         this.page = page;
@@ -16,5 +18,10 @@ export class Login {
         await this.page.locator(this.passwordInput).fill(password);
         await this.page.locator(this.submitBtn).click();
         await this.page.waitForTimeout(1000); // Adjust timeout as necessary
+    }
+
+    async checkErrorMessage(error_text: string) {
+        await expect(this.page.locator(this.errorMessage)).toBeVisible();
+        await expect(this.page.locator(this.errorMessage)).toContainText(error_text);
     }
 }
