@@ -12,9 +12,10 @@ import { defineConfig, devices, firefox } from '@playwright/test';
  * See https://playwright.dev/docs/test-configuration.
  */
 export default defineConfig({
-  testDir: './tests',
+  testDir: './e2e', // Directory where tests are located
   /* Run tests in files in parallel */
   fullyParallel: false,
+  
   /* Fail the build on CI if you accidentally left test.only in the source code. */
   forbidOnly: !!process.env.CI,
   /* Retry on CI only */
@@ -32,7 +33,8 @@ export default defineConfig({
     trace: 'on-first-retry',
     headless:true,
     baseURL: "http://localhost:8087/Account/Login?ReturnUrl=%2f",
-    browserName: 'firefox'
+    browserName: 'firefox',
+    screenshot: 'only-on-failure',
   },
 
   /* Configure projects for major browsers */
