@@ -4,6 +4,7 @@ import test from "playwright/test";
 import fs from "fs";
 import path from "path";
 import { Login } from "./Login";
+import { Common } from "../../common/Common";
 
 describe("Login Test Suite", () => {
   // Variables to store user credentials loaded from file
@@ -25,18 +26,11 @@ describe("Login Test Suite", () => {
   });
 
   test("Login with Valid Credentials", async ({ page }) => {
-    // Create a new instance of the Login page object
+    // Create a new instance of required classes
     const obj = new Login(page);
-
-    // Path to the credentials file (should be 'fixtures', not 'fitures')
-    const fixturePath = path.join("fixtures", "credentials.json");
-    // Check if credentials file exists
-    if (!fs.existsSync(fixturePath)) {
-      throw new Error(`Credentials file not found at ${fixturePath}`);
-    }
-
-    // Read and parse credentials from the JSON file
-    const credentials = JSON.parse(fs.readFileSync(fixturePath, "utf-8"));
+    const obj1 = new Common();
+    // call getcredentails fn to fetch the credentials
+    const credentials = obj1.getCredentials();
     userName = credentials.userName;
     pass = credentials.pass;
     account = credentials.id;

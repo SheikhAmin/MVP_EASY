@@ -3,11 +3,11 @@ import { expect } from "playwright/test";
 
 export class Login {
     private readonly page: Page;
-    private readonly userAccountName = "input#Account";
-    private readonly userName = "input#Username"; 
-    private readonly passwordInput = "input#passwordField";
-    private readonly submitBtn = "button[type='submit'].btn.btn-primary.w-100";
-    private readonly errorMessage = "div.validation-summary-errors.text-danger>ul>li"; // Adjust selector as needed
+    private readonly userAccountName : string = "input#Account";
+    private readonly userName : string = "input#Username"; 
+    private readonly passwordInput : string = "input#passwordField";
+    private readonly submitBtn : string = "button[type='submit'].btn.btn-primary.w-100";
+    private readonly errorMessage : string = "div.validation-summary-errors.text-danger>ul>li"; // Adjust selector as needed
 
     constructor(page: Page) {
         this.page = page;

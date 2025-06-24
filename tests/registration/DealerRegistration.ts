@@ -2,22 +2,22 @@ import { Page, Locator, expect } from '@playwright/test';
 
 export class DealerRegistration {
   private readonly page: Page;
-  private readonly newDealerRegBtn = '.text-muted > a';
-  private readonly newDealerTxt = 'h2.text-center';
-  private readonly userName = 'input#UserName';
-  private readonly address1 = 'input#Address1';
-  private readonly password = 'input#passwordField';
-  private readonly city = 'input#City';
-  private readonly retypePass = 'input#confirmPasswordField';
-  private readonly firtName = 'input#FirstName';
-  private readonly lastName = 'input#LastName';
-  private readonly companyName = 'input#CompanyName';
-  private readonly zipcode = 'input#Zip';
-  private readonly email = 'input#Email';
-  private readonly phone = 'input#HostedManagerDirectPhoneNumber';
-  private readonly sumbitBtn = 'button#submitButton';
-  private readonly promptModal = '#modalOkButton';
-  private readonly accountNum = "input#Account";
+  private readonly newDealerRegBtn : string = '.text-muted > a';
+  private readonly newDealerTxt : string = 'h2.text-center';
+  private readonly userName : string = 'input#UserName';
+  private readonly address1 : string = 'input#Address1';
+  private readonly password : string = 'input#passwordField';
+  private readonly city : string = 'input#City';
+  private readonly retypePass : string = 'input#confirmPasswordField';
+  private readonly firtName : string = 'input#FirstName';
+  private readonly lastName : string = 'input#LastName';
+  private readonly companyName : string = 'input#CompanyName';
+  private readonly zipcode : string = 'input#Zip';
+  private readonly email : string = 'input#Email';
+  private readonly phone : string = 'input#HostedManagerDirectPhoneNumber';
+  private readonly sumbitBtn : string = 'button#submitButton';
+  private readonly promptModal : string = '#modalOkButton';
+  private readonly accountNum : string = "input#Account";
 
   constructor(page: Page) {
     this.page = page;
