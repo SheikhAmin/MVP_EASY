@@ -12,7 +12,7 @@ import { defineConfig, devices, firefox } from '@playwright/test';
  * See https://playwright.dev/docs/test-configuration.
  */
 export default defineConfig({
-  testDir: './e2e', // Directory where tests are located
+  testDir: './tests', // Directory where tests are located
   /* Run tests in files in parallel */
   fullyParallel: false,
   
