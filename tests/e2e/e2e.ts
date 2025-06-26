@@ -24,140 +24,101 @@ export default class e2e {
     "i.fas.fa-building.text-muted.me-2";
   private readonly userAccountIdText: string = "#userId";
   private readonly userCompanyNameText: string = "#userCompany";
+  private lastConsoleError: string | null = null;
+  private currentContext: string = "";
 
   constructor(page: Page) {
     this.page = page;
+    this.page.on("console", (msg) => {
+      if (msg.type() === "error") {
+        this.lastConsoleError = `${this.currentContext}: ${msg.text()}`;
+      }
+    });
   }
 
   async checkDashboard() {
+    this.currentContext = "checkDashboard";
+    await this.page.goto('/');
     // Wait for the page to load
     await this.page.waitForTimeout(1000);
-    const consoleErrors: string[] = [];
-
-    this.page.on("console", (msg) => {
-      if (msg.type() === "error") {
-        consoleErrors.push(msg.text());
-      }
-    });
-
-    if (consoleErrors.length > 0) {
-      throw new Error(`Console errors found: ${consoleErrors.join("; ")}`);
+    if (this.lastConsoleError) {
+      throw new Error(this.lastConsoleError);
     }
   }
 
   async check_people_credential() {
+    this.currentContext = "check_people_credential";
+    
     await this.page.locator(this.people_credentials).click();
     // Wait for the page to load
     await this.page.waitForTimeout(1000);
-    const consoleErrors: string[] = [];
-    this.page.on("console", (msg) => {
-      if (msg.type() === "error") {
-        consoleErrors.push(msg.text());
-      }
-    });
-
-    if (consoleErrors.length > 0) {
-      throw new Error(`Console errors found: ${consoleErrors.join("; ")}`);
+    if (this.lastConsoleError) {
+      throw new Error(this.lastConsoleError);
     }
   }
 
   async check_doors() {
+    this.currentContext = "check_doors";
+  
     await this.page.locator(this.doors).click();
     // Wait for the page to load
     await this.page.waitForTimeout(1000);
-    const consoleErrors: string[] = [];
-    this.page.on("console", (msg) => {
-      if (msg.type() === "error") {
-        consoleErrors.push(msg.text());
-      }
-    });
-
-    if (consoleErrors.length > 0) {
-      throw new Error(`Console errors found: ${consoleErrors.join("; ")}`);
+    if (this.lastConsoleError) {
+      throw new Error(this.lastConsoleError);
     }
   }
 
   async check_hardware() {
+    this.currentContext = "check_hardware";
+    
     await this.page.locator(this.hardware).click();
     // Wait for the page to load
     await this.page.waitForTimeout(1000);
-
-    // Check for console errors
-    const consoleErrors: string[] = [];
-    this.page.on("console", (msg) => {
-      if (msg.type() === "error") {
-        consoleErrors.push(msg.text());
-      }
-    });
-
-    if (consoleErrors.length > 0) {
-      throw new Error(`Console errors found: ${consoleErrors.join("; ")}`);
+    if (this.lastConsoleError) {
+      throw new Error(this.lastConsoleError);
     }
   }
 
   async check_access() {
+    this.currentContext = "check_access";
+  
     await this.page.locator(this.access).click();
     // Wait for the page to load
     await this.page.waitForTimeout(1000);
-    const consoleErrors: string[] = [];
-    this.page.on("console", (msg) => {
-      if (msg.type() === "error") {
-        consoleErrors.push(msg.text());
-      }
-    });
-
-    if (consoleErrors.length > 0) {
-      throw new Error(`Console errors found: ${consoleErrors.join("; ")}`);
+    if (this.lastConsoleError) {
+      throw new Error(this.lastConsoleError);
     }
   }
 
   async check_reports() {
+    this.currentContext = "check_reports";
+    
     await this.page.locator(this.reports).click();
     // Wait for the page to load
     await this.page.waitForTimeout(1000);
-    const consoleErrors: string[] = [];
-    this.page.on("console", (msg) => {
-      if (msg.type() === "error") {
-        consoleErrors.push(msg.text());
-      }
-    });
-
-    if (consoleErrors.length > 0) {
-      throw new Error(`Console errors found: ${consoleErrors.join("; ")}`);
+    if (this.lastConsoleError) {
+      throw new Error(this.lastConsoleError);
     }
   }
 
   async check_customer_List() {
+    this.currentContext = "check_customer_List";
+    
     await this.page.locator(this.customerList).click();
     // Wait for the page to load
     await this.page.waitForTimeout(1000);
-    const consoleErrors: string[] = [];
-    this.page.on("console", (msg) => {
-      if (msg.type() === "error") {
-        consoleErrors.push(msg.text());
-      }
-    });
-
-    if (consoleErrors.length > 0) {
-      throw new Error(`Console errors found: ${consoleErrors.join("; ")}`);
+    if (this.lastConsoleError) {
+      throw new Error(this.lastConsoleError);
     }
   }
 
   async checkUserDropdown() {
- 
+    this.currentContext = "checkUserDropdown";
+    
     await this.page.locator(this.userDropdown).click();
     await this.page.waitForTimeout(1000);
-
-    // Check for console errors
-    const consoleErrors: string[] = [];
-    this.page.on("console", (msg) => {
-      if (msg.type() === "error") {
-        consoleErrors.push(msg.text());
-      }
-    });
-
-    if (consoleErrors.length > 0) {
-      throw new Error(`Console errors found: ${consoleErrors.join("; ")}`);
+    if (this.lastConsoleError) {
+      throw new Error(this.lastConsoleError);
     }
 
     // Verify that the user profile text is visible
@@ -165,17 +126,21 @@ export default class e2e {
     await expect(this.page.locator(this.userProfileText)).toHaveText(
       "User Profile"
     );
-    const obj : Login = new Login(this.page);
+    const obj: Login = new Login(this.page);
     let userId: string =
       (await this.page.locator(this.userAccountIdText).textContent()) || "";
     // Append "_Customer" to the userId becz in the bacend the html is rendered as hN@66H+Gz, so plawright only extract it.
-   
+
     let userCompany: string =
       (await this.page.locator(this.userCompanyNameText).textContent()) || "";
     const obj1: Common = new Common();
-    const credentials : {company_name : string, user_name : string, account_no : string} = obj1.getCustomerCredentials();
+    const credentials: {
+      company_name: string;
+      user_name: string;
+      account_no: string;
+    } = obj1.getCustomerCredentials();
     // Verify that the user profile ID text matches the expected format
-    await expect(userId).toMatch(credentials.user_name?? "");
+    await expect(userId).toMatch(credentials.user_name ?? "");
     // Verify that the user profile company name text matches the expected format
     await expect(userCompany).toMatch(credentials.company_name ?? "");
     // Verify that the user profile ID icon is visible
@@ -186,13 +151,13 @@ export default class e2e {
     await expect(this.page.locator(this.userProfileNameIcon)).toBeVisible();
     // Verify that the user profile company icon is visible
     await expect(this.page.locator(this.userProfileCompanyIcon)).toBeVisible();
-    
+    /*
     const userIdLocator = this.page.locator(this.userAccountIdText);
-    // Pause to inspect the page if needed
-    const rawHtml = await userIdLocator.evaluate(node => node.outerHTML);
+
+    const rawHtml = await userIdLocator.evaluate((node) => node.outerHTML);
     const text = await userIdLocator.textContent();
     console.log("Raw HTML:", rawHtml);
     console.log("Text content:", text);
- 
+    */
   }
 }
