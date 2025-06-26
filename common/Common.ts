@@ -70,4 +70,24 @@ export class Common {
     const credentials: Credentials = JSON.parse(fs.readFileSync(fixturePath, "utf-8")); // credentials is of type Credentials
     return credentials;
   }
+
+  getCustomerCredentials() {
+    // get customer credentials
+    const fixturePath: string = path.join("fixtures", "customer_credentials.json"); // fixturePath is a string
+    // check if credentials file exist
+    if (!fs.existsSync(fixturePath)) {
+      throw new Error(`Customer credentials file not found at ${fixturePath}`);
+    }
+
+    // Define the expected structure of customer credentials
+    interface CustomerCredentials {
+      company_name: string;
+      user_name: string;
+      account_no: string;
+    }
+
+    // Read and parse customer credentials from the JSON file
+    const customerCredentials: CustomerCredentials = JSON.parse(fs.readFileSync(fixturePath, "utf-8")); // customerCredentials is of type CustomerCredentials
+    return customerCredentials;
+  }
 }
