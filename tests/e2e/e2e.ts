@@ -169,7 +169,7 @@ export default class e2e {
     let userId: string =
       (await this.page.locator(this.userAccountIdText).textContent()) || "";
     // Append "_Customer" to the userId becz in the bacend the html is rendered as hN@66H+Gz, so plawright only extract it.
-    userId = userId + "_Customer"; 
+   
     let userCompany: string =
       (await this.page.locator(this.userCompanyNameText).textContent()) || "";
     const obj1: Common = new Common();
@@ -186,12 +186,13 @@ export default class e2e {
     await expect(this.page.locator(this.userProfileNameIcon)).toBeVisible();
     // Verify that the user profile company icon is visible
     await expect(this.page.locator(this.userProfileCompanyIcon)).toBeVisible();
-    /*
+    
     const userIdLocator = this.page.locator(this.userAccountIdText);
+    // Pause to inspect the page if needed
     const rawHtml = await userIdLocator.evaluate(node => node.outerHTML);
     const text = await userIdLocator.textContent();
     console.log("Raw HTML:", rawHtml);
     console.log("Text content:", text);
-    */
+ 
   }
 }
