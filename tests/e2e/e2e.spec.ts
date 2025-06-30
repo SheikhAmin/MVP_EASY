@@ -6,7 +6,8 @@ import { error } from "console";
 import { Common } from "../../common/Common";
 
 describe("MVP EZ e2e test", () => {
-  test("conduct e2e", async ({ page }) => {
+  // this test checks if any console errors are present after loading the dashboard and checking various functionalities
+  test("Conduct e2e test", async ({ page }) => {
     //visit the page
     await page.goto("/");
     //create necessary obj

@@ -1,8 +1,6 @@
 // Importing required modules and classes
 import { describe } from "node:test";
 import test from "playwright/test";
-import fs from "fs";
-import path from "path";
 import { Login } from "./Login";
 import { Common } from "../../common/Common";
 
