@@ -31,7 +31,7 @@ export default defineConfig({
 
     /* Collect trace when retrying the failed test. See https://playwright.dev/docs/trace-viewer */
     trace: 'on-first-retry',
-    headless:true,
+    headless:false,
     baseURL: "http://localhost:8087/Account/Login?ReturnUrl=%2f",
     browserName: 'firefox',
     screenshot: 'only-on-failure',
@@ -40,22 +40,22 @@ export default defineConfig({
   /* Configure projects for major browsers */
   projects: [
 
-
+/*
     {
       name: 'chromium',
       use: { ...devices['Desktop Chrome'] },
     },
-  
+  */
     {
       name: 'firefox',
       use: { ...devices['Desktop Firefox'] },
     },
-
+/*
     {
       name: 'webkit',
       use: { ...devices['Desktop Safari'] },
     },
-    
+   */
     /* Test against mobile viewports. */
     // {
     //   name: 'Mobile Chrome',

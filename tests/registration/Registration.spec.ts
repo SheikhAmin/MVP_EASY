@@ -4,8 +4,12 @@ import { DealerRegistration } from "./DealerRegistration";
 import { Common } from "../../common/Common";
 
 import { test, expect } from "@playwright/test";
+// @ts-ignore
 import path from "path";
+// @ts-ignore
 import fs from "fs";
+
+
 import { Login } from "../login/Login";
 
 describe("Test Cases",()=>{
@@ -27,7 +31,7 @@ describe("Test Cases",()=>{
         const credentials = {userName, pass, id};   
         const fixturePath = path.join('fixtures', 'credentials.json');
         fs.writeFileSync(fixturePath, JSON.stringify(credentials, null, 3));
-        await page.waitForTimeout(5000);
+
     })
 
    

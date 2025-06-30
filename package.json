@@ -12,7 +12,7 @@
   "devDependencies": {
     "@playwright/test": "^1.52.0",
     "@types/mssql": "^9.1.7",
-    "@types/node": "^22.15.18"
+    "@types/node": "^22.15.34"
   },
   "dependencies": {
     "mssql": "^11.0.1",
