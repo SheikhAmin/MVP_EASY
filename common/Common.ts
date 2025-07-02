@@ -1,4 +1,6 @@
+// @ts-ignore
 import path from "path";
+// @ts-ignore
 import fs from "fs";
 
 export class Common {
@@ -90,4 +92,6 @@ export class Common {
     const customerCredentials: CustomerCredentials = JSON.parse(fs.readFileSync(fixturePath, "utf-8")); // customerCredentials is of type CustomerCredentials
     return customerCredentials;
   }
+
+
 }

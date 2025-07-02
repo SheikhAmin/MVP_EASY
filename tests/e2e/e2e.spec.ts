@@ -1,11 +1,10 @@
 import { test } from "@playwright/test";
-import { describe } from "node:test";
 import e2e from "./e2e";
 import { Login } from "../login/Login";
 import { error } from "console";
 import { Common } from "../../common/Common";
 
-describe("MVP EZ e2e test", () => {
+test.describe("MVP EZ e2e test", () => {
   // this test checks if any console errors are present after loading the dashboard and checking various functionalities
   test("Conduct e2e test", async ({ page }) => {
     //visit the page

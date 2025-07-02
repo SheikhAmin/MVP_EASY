@@ -43,6 +43,13 @@ test.describe("Login Test Suite", () => {
     await obj.checkErrorMessage("Invalid username or password");
   });
 
+  test("Login with Customer", async ({ page }: { page: any }) => {
+    const obj: Login = new Login(page); // Create a new instance of the Login page object
+    // Attempt to log in with deliberately incorrect credentials
+    await obj.customerLogin();
+
+  });
+
   test("Login with Invalid Password", async ({ page }: { page: any }) => {
     // Create a new instance of the Login page object
     const obj: Login = new Login(page);
