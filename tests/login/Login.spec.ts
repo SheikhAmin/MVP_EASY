@@ -1,10 +1,8 @@
-// Importing required modules and classes
-import { describe } from "node:test";
 import test from "playwright/test";
 import { Login } from "./Login";
 import { Common } from "../../common/Common";
 
-describe("Login Test Suite", () => {
+test.describe("Login Test Suite", () => {
   // Variables to store user credentials loaded from file
   let account: string;
   let userName: string;
@@ -23,7 +21,7 @@ describe("Login Test Suite", () => {
     await page.close();
   });
 
-  test("Login with Valid Credentials", async ({ page }: { page: any }) => {
+  test("Login with Valid credentials", async ({ page }: { page: any }) => {
     // Create a new instance of required classes
     const obj: Login = new Login(page);
     const obj1: Common = new Common();

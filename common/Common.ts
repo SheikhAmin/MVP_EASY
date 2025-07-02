@@ -67,7 +67,7 @@ export class Common {
     }
 
     // Read and parse credentials from the JSON file
-    const credentials: Credentials = JSON.parse(fs.readFileSync(fixturePath, "utf-8")); // credentials is of type Credentials
+    const credentials: Credentials = JSON.parse(fs.readFileSync(fixturePath, "utf-8")); // credentials is of type credentials
     return credentials;
   }
 
