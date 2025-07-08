@@ -13,19 +13,32 @@ test.describe("Devices", () => {
     let account: string;
 
 
-    test("Devices Test", async ({page}:{page}) => {
+
+    test.beforeEach('Visit & login', async ({page}:{page}) => {
         await page.goto('/');
 
-        const obj:Devices = new Devices(page);
-        const obj1:Login = new Login(page);
+
+
         const obj2: Common = new Common();
-        const obj3:CustomerList = new CustomerList(page);
+
 
         // call getCredentials fn to fetch the credentials
         const credentials = obj2.getCredentials();
         userName = credentials.userName;
         pass = credentials.pass;
         account = credentials.id;
+    })
+
+    test("Devices Test: Test overall device set", async ({page}:{page}) => {
+
+
+        const obj:Devices = new Devices(page);
+        const obj1:Login = new Login(page);
+
+        const obj3:CustomerList = new CustomerList(page);
+
+
+
         // Attempt to log in using the loaded credentials
         await obj1.login(account,userName,pass);
         await obj3.clickNext();
@@ -37,6 +50,19 @@ test.describe("Devices", () => {
         //Checks overall visibility of AddDevice section
         await obj.checkAddDeviceModule();
 
+
+    })
+
+    test('Create a Dummy Panel', async ({page}:{page}) => {
+        const obj:Devices = new Devices(page);
+        const obj1:Login = new Login(page);
+
+        const obj3:CustomerList = new CustomerList(page);
+        await obj1.login(account,userName,pass);
+        await obj3.clickNext();
+        await obj.clickDevices();
+        await obj.clickAddDevice();
+        await obj.createPanel("NA-1");
 
     })
 })

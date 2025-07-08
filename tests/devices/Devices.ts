@@ -1,5 +1,7 @@
 import {Page} from "playwright";
 import {expect} from "playwright/test";
+import {Common} from "../../common/Common";
+import {error} from "console";
 
 export default class Devices {
     private readonly page : Page;
@@ -17,7 +19,8 @@ export default class Devices {
     private readonly name : string = "#Name";
     private readonly macAddress : string = "#MacAddress";
     private readonly backBtn : string = "i.fa.fa-arrow-left.back-icon.icon-only";
-
+    private readonly panelType : string = "#PanelType";
+    private readonly
 
     constructor(page : Page) {
         this.page = page;
@@ -68,6 +71,27 @@ export default class Devices {
         await expect(this.page.locator(this.macAddress)).toHaveAttribute('data-val-required', 'MAC Address is required');
         await this.page.locator(this.backBtn).click();
         await expect(this.page.locator(this.people_text)).toContainText("Devices");
+
+    }
+
+    async createPanel(panelType:string){
+        await expect(this.page.locator(this.panel)).toBeVisible();
+        //await expect(this.page.locator(this.panel)).toBeChecked();
+        await this.page.locator(this.panel).check();
+        const obj = new Common();
+        let mac = obj.generateDummyMAC();
+        if (panelType.toUpperCase() === 'NA-1' || panelType.toUpperCase() === 'NA-2'){
+            await this.page.selectOption(this.panelType,panelType.toUpperCase());
+            await this.page.locator(this.name).fill(`test_${panelType.toUpperCase()}`);
+        }
+        else {
+            throw new error("Unsupported Panel Type");
+        }
+        console.log(mac);
+        await this.page.locator(this.macAddress).fill(mac);
+        await this.page.locator(this.addDeviceBtn).click();
+        await this.page.waitForTimeout(5000);
+        await this.page.pause();
 
     }
 }

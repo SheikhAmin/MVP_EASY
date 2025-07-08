@@ -93,5 +93,22 @@ export class Common {
     return customerCredentials;
   }
 
+  generateDummyMAC(): string {
+    const hexDigits = "0123456789ABCDEF";
+    let mac = "";
+
+    for (let i = 0; i < 6; i++) {
+      const byte =
+          hexDigits[Math.floor(Math.random() * 16)] +
+          hexDigits[Math.floor(Math.random() * 16)];
+
+      mac += byte;
+
+    }
+
+    return mac;
+  }
+
+
 
 }
