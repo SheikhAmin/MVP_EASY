@@ -52,7 +52,7 @@ test.describe("Devices", () => {
 
 
     })
-
+    // this test creates dummy panel then check the hardware list for newly created panel
     test('Create a Dummy Panel', async ({page}:{page}) => {
         const obj:Devices = new Devices(page);
         const obj1:Login = new Login(page);

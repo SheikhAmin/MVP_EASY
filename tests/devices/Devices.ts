@@ -20,7 +20,7 @@ export default class Devices {
     private readonly macAddress : string = "#MacAddress";
     private readonly backBtn : string = "i.fa.fa-arrow-left.back-icon.icon-only";
     private readonly panelType : string = "#PanelType";
-    private readonly
+    private readonly allDeviceList = "ul.list-group.rounded-0"
 
     constructor(page : Page) {
         this.page = page;
@@ -79,19 +79,48 @@ export default class Devices {
         //await expect(this.page.locator(this.panel)).toBeChecked();
         await this.page.locator(this.panel).check();
         const obj = new Common();
+        let deviceName : string;
         let mac = obj.generateDummyMAC();
         if (panelType.toUpperCase() === 'NA-1' || panelType.toUpperCase() === 'NA-2'){
             await this.page.selectOption(this.panelType,panelType.toUpperCase());
+            deviceName = `test_${panelType.toUpperCase()}`
             await this.page.locator(this.name).fill(`test_${panelType.toUpperCase()}`);
         }
         else {
             throw new error("Unsupported Panel Type");
         }
-        console.log(mac);
+        //console.log(mac);
         await this.page.locator(this.macAddress).fill(mac);
         await this.page.locator(this.addDeviceBtn).click();
         await this.page.waitForTimeout(5000);
-        await this.page.pause();
+        //await this.page.selectOption(this.allDeviceList,)
+        await  this.page.waitForTimeout(5000);
 
+
+
+
+        // Wait for the list to load (important if data loads dynamically)
+        await this.page.waitForSelector('ul.list-group.rounded-0');
+
+        // Locate all <li> items inside the UL
+        const items = await this.page.locator('ul.list-group.rounded-0>li');
+
+        const count = await items.count();
+        let found = false;
+
+        for (let i = 0; i < count; i++) {
+            const text = await items.nth(i).innerText();
+            if (text.includes(deviceName)) {
+                found = true;
+                console.log(`✅ Device "${deviceName}" found in list.`);
+                break;
+            }
+        }
+
+        expect(found).toBeTruthy(); // Fails test if not found
     }
+
+
+
+
 }
