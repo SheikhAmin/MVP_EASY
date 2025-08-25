@@ -11,8 +11,8 @@ export class Login {
     private readonly errorMessage : string = "div.validation-summary-errors.text-danger>ul>li"; // Adjust selector as needed
     private readonly customerAccount : string =  "div.container";
     private readonly customerIdAccountCompanyName : string = "div.col-7.text-truncate";
- 
-
+    private readonly profile_Dropdown : string = "#profile-dropdown";
+    private readonly sign_Out_btn : string = 'a.btn.btn-primary.w-100.py-2.fw-bold[href="/Account/Logout"]';
  
  
     public customer_Account_No: string;
@@ -23,12 +23,14 @@ export class Login {
     constructor(page: Page) {
         this.page = page;
     }
+
     async login(account: string, username: string, password: string) {
         await this.page.locator(this.userAccountName).fill(account);
         await this.page.locator(this.userName).fill(username);
         await this.page.locator(this.passwordInput).fill(password);
         await this.page.locator(this.submitBtn).click();
         await this.page.waitForTimeout(1000); // Adjust timeout as necessary
+        await expect(this.page.locator(this.profile_Dropdown)).toBeVisible();
     }
 
     async customerLogin() {
@@ -48,9 +50,18 @@ export class Login {
         await this.page.locator(this.customerAccount).click();
         await this.page.waitForTimeout(2000);
     }
+
     async checkErrorMessage(error_text: string) {
         await expect(this.page.locator(this.errorMessage)).toBeVisible();
         await expect(this.page.locator(this.errorMessage)).toContainText(error_text);
         
     }
+
+    async sign_out(){
+        await this.page.locator(this.profile_Dropdown).click();
+        await this.page.locator(this.sign_Out_btn).click();
+        await this.page.waitForTimeout(1000);
+    }
+
+
 }

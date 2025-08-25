@@ -16,12 +16,7 @@ test.describe("Devices", () => {
 
     test.beforeEach('Visit & login', async ({page}:{page}) => {
         await page.goto('/');
-
-
-
         const obj2: Common = new Common();
-
-
         // call getCredentials fn to fetch the credentials
         const credentials = obj2.getCredentials();
         userName = credentials.userName;
@@ -30,14 +25,10 @@ test.describe("Devices", () => {
     })
 
     test("Devices Test: Test overall device set", async ({page}:{page}) => {
-
-
         const obj:Devices = new Devices(page);
         const obj1:Login = new Login(page);
 
         const obj3:CustomerList = new CustomerList(page);
-
-
 
         // Attempt to log in using the loaded credentials
         await obj1.login(account,userName,pass);
@@ -49,8 +40,6 @@ test.describe("Devices", () => {
         await obj.clickAddDevice();
         //Checks overall visibility of AddDevice section
         await obj.checkAddDeviceModule();
-
-
     })
     // this test creates dummy panel then check the hardware list for newly created panel
     test('Create a Dummy Panel', async ({page}:{page}) => {
@@ -65,4 +54,6 @@ test.describe("Devices", () => {
         await obj.createPanel("NA-1");
 
     })
+
+
 })
