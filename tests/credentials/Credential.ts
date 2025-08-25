@@ -9,8 +9,9 @@ export default class Credentials {
     private readonly search_bar: string = "#searchForm";
     private readonly addBtn: string = "#btnAddInFooter";
     private readonly user_Profile_icon: string = "div.profile-container";
-
-
+    private readonly profile_Dropdown : string = "#profile-dropdown";
+    private readonly sign_Out_btn : string = 'a.btn.btn-primary.w-100.py-2.fw-bold[href="/Account/Logout"]';
+    private readonly credentials_text : string = "People, Credentials";
 
     constructor(page : Page) {
         this.page = page;
@@ -28,5 +29,6 @@ export default class Credentials {
         await expect(this.page.locator(this.addBtn)).toBeVisible();
         await expect(this.page.locator(this.user_Profile_icon)).toBeVisible();
     }
+
 
 }
