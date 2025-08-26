@@ -11,7 +11,7 @@ export class Login {
     private readonly errorMessage : string = "div.validation-summary-errors.text-danger>ul>li"; // Adjust selector as needed
     private readonly customerAccount : string =  "div.container";
     private readonly customerIdAccountCompanyName : string = "div.col-7.text-truncate";
-    private readonly profile_Dropdown : string = "#profile-dropdown";
+    private readonly profile_Dropdown : string = "div.profile-container";
     private readonly sign_Out_btn : string = 'a.btn.btn-primary.w-100.py-2.fw-bold[href="/Account/Logout"]';
  
  
@@ -29,7 +29,7 @@ export class Login {
         await this.page.locator(this.userName).fill(username);
         await this.page.locator(this.passwordInput).fill(password);
         await this.page.locator(this.submitBtn).click();
-        await this.page.waitForTimeout(1000); // Adjust timeout as necessary
+        await this.page.waitForTimeout(3000); // Adjust timeout as necessary
         await expect(this.page.locator(this.profile_Dropdown)).toBeVisible();
     }
 

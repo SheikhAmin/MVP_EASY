@@ -33,7 +33,9 @@ export default defineConfig({
     /* Collect trace when retrying the failed test. See https://playwright.dev/docs/trace-viewer */
     trace: 'on-first-retry',
     headless:false,
-    baseURL: "http://localhost:8087/Account/Login?ReturnUrl=%2f",
+
+      //baseURL: "http://stagingez.mvpaccess.online/Account/Login?clearSessionStorage=true",
+    baseURL: "http://localhost:8095/Account/Login?ReturnUrl=%2f",
     //browserName: 'firefox',
     screenshot: 'only-on-failure',
   },
@@ -59,12 +61,12 @@ export default defineConfig({
    */
     // Test against mobile viewports.
 
-/*
+
      {
        name: 'Mobile Chrome',
        use: { ...devices['Pixel 5'] },
      },
-*/
+/*
      {
        name: 'Mobile Safari',
        use: { ...devices['iPhone 12'] },
