@@ -18,7 +18,7 @@ test.describe("Credentials Test", () => {
         const obj2: Common = new Common();
 
         // call getCredentials fn to fetch the credentials
-        const credentials: { userName: string; pass: string; id: string } = obj2.getCredentials();
+        const credentials: { userName: string; pass: string; id: string } = obj2.getCredentials("credentials.json");
         userName = credentials.userName;
         pass = credentials.pass;
         account = credentials.id;
@@ -26,19 +26,14 @@ test.describe("Credentials Test", () => {
         await obj1.login(account, userName, pass);
     })
 
-    test.afterEach('Sign out' ,async ({page}:{page}) => {
-        await page.locator("div.profile-container").click();
-        //await page.waitForTimeout(10000);
-        await page.locator('a.btn.btn-primary.w-100.py-2.fw-bold[href="/Account/Logout"]').click();
+    test.afterEach('Page Close' ,async ({page}:{page}) => {
         await page.close();
     })
 
     test.skip('Sign out' ,async ({page}:{page}) => {
-        //await page.pause();
-        await page.locator("div.profile-container").click();
-        //await page.waitForTimeout(10000);
-        await page.locator('a.btn.btn-primary.w-100.py-2.fw-bold[href="/Account/Logout"]').click();
+       const obj : Credentials = new Credentials(page);
 
+       await obj.sign_out();
     })
 
     test("Checking the Visibility of the module", async ({page} : {page})=>{
@@ -46,7 +41,6 @@ test.describe("Credentials Test", () => {
 
         await obj.clickPeople_Credential();
         await obj.checkVisibility();
-
     })
 
     test('Click People, Credentials',async ({page}:{page}) => {
@@ -68,7 +62,6 @@ test.describe("Credentials Test", () => {
         await obj.clickPeople_Credential();
         await obj.click_add_btn();
         await page.locator("div.profile-container").click();
-        //await page.waitForTimeout(10000);
         await page.locator('a.btn.btn-primary.w-100.py-2.fw-bold[href="/Account/Logout"]').click();
     })
 
@@ -129,9 +122,51 @@ test.describe("Credentials Test", () => {
     })
 
     // need to know search logic for implementation
-    test.skip('Open a previously create standard crededntial click delete',async ({page}:{page}) => {
+    test.skip('Open a previously create standard credential click delete',async ({page}:{page}) => {
         const obj:Credentials = new Credentials(page);
 
 
+    })
+
+    test('Click Additional personal field and click again; some new field will shown and hide again',async ({page}:{page}) => {
+        const obj:Credentials = new Credentials(page);
+
+        await obj.clickPeople_Credential();
+        await obj.click_add_btn();
+        await obj.click_additional_info();
+        await obj.check_visible_additional_info();
+        await obj.click_additional_info();
+        await obj.check_Hidden_additional_info();
+    })
+
+    //check this
+    test('Create a mobile user with max information, except enable & administrator checkbox is unchecked',async ({page}:{page}) => {
+        const obj:Credentials = new Credentials(page);
+
+        await obj.clickPeople_Credential();
+        await obj.click_add_btn();
+        await obj.add_common_info('Mobile','Non','Admin','Dhaka','QA','I am tester','samin+233@ael-bd.com','01521255650');
+        await obj.mobileopr_except_admin_enable();
+        //await obj.sign_out();
+        await page.goto('/')
+
+        const obj1 : Common = new Common();
+        const obj2 : Login = new Login(page);
+
+        const credentials : {userName:string, pass:string, id:string} = obj1.getCredentials("Enable_Administrator_Unchecked.json");
+        console.log(credentials.id,credentials.userName,credentials.pass)
+        await obj2.login(credentials.id,credentials.userName,credentials.pass);
+
+        //check for password change section
+
+    })
+
+    test.only('Image Up',async ({page}:{page}) => {
+        const obj:Credentials = new Credentials(page);
+
+        await obj.clickPeople_Credential();
+        await obj.click_add_btn();
+        await obj.image_upload();
+        await page.waitForTimeout(10000);
     })
 })

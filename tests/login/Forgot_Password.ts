@@ -40,7 +40,9 @@ export class Forgot_Password {
     constructor(page : Page) {
         this.page = page;
     }
-
+    async click_forgot_password(): Promise<void> {
+        await this.page.locator(this.forgotPassword).click();
+    }
     async forgot_password(): Promise<void> {
         await this.page.locator(this.forgotPassword).click();
         await expect(this.page.locator(this.forgotPasswordText)).toBeVisible();
@@ -58,7 +60,11 @@ export class Forgot_Password {
     }
 
     async wrong_email(): Promise<void> {
-        await expect(this.page.locator(this.email_error)).toContainText(this.email_err_msg)
+        await this.page.getByRole('button', { name: /request/i }).click();
+
+        const errorText = this.page.locator(this.email_error);
+        await expect(errorText).toHaveText(this.email_err_msg);
+
     }
 
     async verify_required_field_error_msg(){

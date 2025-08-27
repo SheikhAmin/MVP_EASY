@@ -53,9 +53,9 @@ export class Common {
     return `user${timestamp}@example.com`;
   }
 
-  getCredentials() {
+  getCredentials(file_name:string) {
     // get login credentials
-    const fixturePath: string = path.join("fixtures", "credentials.json"); // fixturePath is a string
+    const fixturePath: string = path.join("fixtures", file_name); // fixturePath is a string
     // check if credentials file exist
     if (!fs.existsSync(fixturePath)) {
       throw new Error(`Credentials file not found at ${fixturePath}`);

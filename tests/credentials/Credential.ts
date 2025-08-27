@@ -1,6 +1,11 @@
 import {Page} from "playwright";
 import {expect} from "playwright/test";
 import {error} from "console";
+import {Common} from "../../common/Common";
+// @ts-ignore
+import path from "path";
+// @ts-ignore
+import fs from "fs";
 
 export default class Credentials {
     private readonly page : Page;
@@ -11,11 +16,10 @@ export default class Credentials {
     private readonly addBtn: string = "#btnAddInFooter";
     private readonly user_Profile_icon: string = "div.profile-container";
     //private readonly profile_Dropdown : string = "div.profile-container";
-    private readonly sign_Out_btn : string = 'a.btn.btn-primary.w-100.py-2.fw-bold[href="/Account/Logout"]';
+    private readonly sign_out_btn : string = 'a.btn.btn-primary.w-100.py-2.fw-bold[href="/Account/Logout"]';
     private readonly credentials_text : string = "People, Credentials";
     private readonly menu_btn : string = "button.menu-btn";
     private readonly menu_btn_credentials : string = "a[href = '/Personnel']";
-    private readonly add_btn : string = "#btnAddInFooter";
     private readonly create_people_text: string = "div.toolbar-center>h3";
     private readonly save_btn: string = "#btnSave";
     private readonly back_btn: string = "i.fa.fa-arrow-left.back-icon.icon-only";
@@ -23,6 +27,7 @@ export default class Credentials {
     private readonly last_name_error: string = "#lastName-error";
     private readonly first_name: string = "#firstName";
     private readonly last_name: string = "#lastName";
+    private readonly mid_name: string = "#middleName";
     private readonly credentials: string = "input.form-control.credential-input";
     private readonly credentials_error:string = "#validation-summary>div>ul>li";
     private readonly credentials_name_list:string = "ul.list-group.rounded-0>li>div>div.ms-3>.name";
@@ -33,6 +38,21 @@ export default class Credentials {
     private readonly search_btn:string = "button.input-group-text"
     private readonly people_list:string = "ul.list-group.rounded-0";
     private readonly people_list_name_el:string = "div.ms-3>.name";
+    private readonly additional_personal_info:string = "#btn-additional-person";
+    private readonly location:string = "#SelectedLocation";
+    private readonly department:string = "#SelectedDepartment";
+    private readonly note:string = "#Remarks";
+    private readonly enable_mobile_opr:string = "#createOperatorToggle";
+    private readonly personnel_userId:string = "#personnelUserId";
+    private readonly personnel_password:string = "#passwordField";
+    private readonly personnel_retype_password:string = "#confirmPasswordField";
+    private readonly mobile_number:string = "#mobileNo";
+    private readonly email:string = "#Email";
+    private readonly image_up:string = "#photoUpload";
+    private readonly old_password:string = "#oldPassword";
+    private readonly new_password:string = "#newPassword";
+    private readonly confirm_password:string = "#confirmPassword";
+    private readonly update_password:string = "button.btn.btn-primary.w-100[type='submit']";
 
     constructor(page : Page) {
         this.page = page;
@@ -84,6 +104,70 @@ export default class Credentials {
         await this.page.waitForTimeout(2000);
     }
 
+    async click_additional_info(){
+        await this.page.evaluate(() => window.scrollTo(0, document.body.scrollHeight));
+        await this.page.waitForTimeout(2000);
+        await this.page.locator(this.additional_personal_info).click();
+    }
+
+    async check_visible_additional_info(){
+        await expect(this.page.locator(this.location)).toBeVisible();
+        await expect(this.page.locator(this.department)).toBeVisible();
+        await expect(this.page.locator(this.note)).toBeVisible();
+    }
+
+    async check_Hidden_additional_info(){
+        await expect(this.page.locator(this.location)).toBeHidden();
+        await expect(this.page.locator(this.department)).toBeHidden();
+        await expect(this.page.locator(this.note)).toBeHidden();
+    }
+
+    async add_common_info(f_name :string, l_name:string, m_name:string, location:string, department:string, note:string, email:string, mobile:string){
+        await this.page.locator(this.first_name).fill(f_name);
+        await this.page.locator(this.last_name).fill(l_name);
+        await this.page.locator(this.mid_name).fill(m_name);
+        await this.page.locator(this.additional_personal_info).click();
+        await this.page.locator(this.location).fill(location);
+        await this.page.locator(this.department).fill(department);
+        await this.page.locator(this.note).fill(note);
+        await this.page.locator(this.email).fill(email);
+        await this.page.locator(this.mobile_number).fill(mobile);
+    }
+
+    async mobileopr_except_admin_enable(){
+        await this.page.locator(this.enable_mobile_opr).check();
+        await expect(this.page.locator(this.personnel_userId)).toBeVisible();
+        await expect(this.page.locator(this.personnel_password)).toBeVisible();
+        await expect(this.page.locator(this.personnel_retype_password)).toBeVisible();
+        const userName : string = "mobileopr_except_admin_enable3";
+        const password: string = "Cic!2345678";
+        await this.page.locator(this.personnel_userId).fill(userName);
+        await this.page.locator(this.personnel_password).fill(password);
+        await this.page.locator(this.personnel_retype_password).fill(password);
+
+        const obj = new Common();
+
+        const credentials : {userName: string, pass: string, id: string} = obj.getCredentials("credentials.json");
+        let my_id = Number(credentials.id);
+        const account_num : string = my_id.toString();
+
+        const my_credentials  = {userName,password,account_num,};
+        const fixturePath = path.join('fixtures', 'Enable_Administrator_Unchecked.json');
+        fs.writeFileSync(fixturePath, JSON.stringify(my_credentials, null, 3));
+
+        await this.image_upload();
+        await this.page.locator(this.save_btn).click();
+        await this.page.waitForTimeout(5000);
+    }
+
+    async image_upload(){
+        await this.page.locator(this.image_up).setInputFiles('upload_files/image.jpg');
+    }
+
+    async sign_out(){
+        await this.page.locator(this.user_Profile_icon).click();
+        await this.page.locator(this.sign_out_btn).click();
+    }
     /*
     async search_credentials(input_data:string){
         await this.page.locator(this.search_bar).fill(input_data);
@@ -170,5 +254,11 @@ export default class Credentials {
         await expect(this.page.locator(this.user_Profile_icon)).toBeVisible();
     }
 
+    async check_password_change_module(){
+        await expect(this.page.locator(this.old_password)).toBeVisible();
+        await expect(this.page.locator(this.new_password)).toBeVisible();
+        await expect(this.page.locator(this.confirm_password)).toBeVisible();
+        await expect(this.page.locator(this.update_password)).toBeVisible();
+    }
 
 }

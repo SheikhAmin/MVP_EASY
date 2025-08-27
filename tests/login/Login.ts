@@ -13,8 +13,14 @@ export class Login {
     private readonly customerIdAccountCompanyName : string = "div.col-7.text-truncate";
     private readonly profile_Dropdown : string = "div.profile-container";
     private readonly sign_Out_btn : string = 'a.btn.btn-primary.w-100.py-2.fw-bold[href="/Account/Logout"]';
- 
- 
+    private readonly password_filed_error_txt: string = "#passwordField-error";
+    private readonly account_error_txt: string = "#Account-error";
+    private readonly username_error_txt: string = "#Username-error";
+    private readonly remember_me: string = '#RememberMe';
+
+
+
+
     public customer_Account_No: string;
     public customer_Company_Name: string;
     public customer_Id: string;
@@ -22,6 +28,29 @@ export class Login {
 
     constructor(page: Page) {
         this.page = page;
+    }
+
+    async password_error_msg_verify(error:string){
+        await expect(this.page.locator(this.password_filed_error_txt)).toBeVisible();
+        await expect(this.page.locator(this.password_filed_error_txt)).toHaveText(error);
+    }
+
+    async account_error_msg_verify(error:string){
+        await expect(this.page.locator(this.account_error_txt)).toBeVisible();
+        await expect(this.page.locator(this.account_error_txt)).toHaveText(error);
+    }
+
+    async username_error_msg_verify(error:string){
+        await expect(this.page.locator(this.username_error_txt)).toBeVisible();
+        await expect(this.page.locator(this.username_error_txt)).toHaveText(error);
+    }
+
+    async invalid_login(account: string, username: string, password: string){
+        await this.page.locator(this.userAccountName).fill(account);
+        await this.page.locator(this.userName).fill(username);
+        await this.page.locator(this.passwordInput).fill(password);
+        await this.page.locator(this.submitBtn).click();
+        await this.page.waitForTimeout(3000);
     }
 
     async login(account: string, username: string, password: string) {
@@ -63,5 +92,18 @@ export class Login {
         await this.page.waitForTimeout(1000);
     }
 
+    async check_remember_me(){
+        await this.page.locator(this.remember_me).check();
+    }
+
+    async verify_remember_me(account: string, username: string, password: string) {
+        const account_r : string = await this.page.locator(this.userAccountName).inputValue();
+        const pass_r : string = await this.page.locator(this.passwordInput).inputValue();
+        const username_r : string = await this.page.locator(this.userName).inputValue();
+
+        expect(account_r).toEqual(account);
+        expect(pass_r).toEqual(password);
+        expect(username_r).toEqual(username);
+    }
 
 }
